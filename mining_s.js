@@ -1,16 +1,6 @@
 // HEADER INFORMATION
 // Redis defined.
-/*
-var redisURL = url.parse('redis://127.0.0.1:6379');
-var redisClient = require('redis').createClient(
-  redisURL.port,
-  redisURL.hostname,
-  { no_ready_check: true }
-);
-if (redisURL.auth) {
-  redisClient.auth(redisURL.auth.split(':')[1]);
-}
-*/
+
 // other modules
 const SHA256 = require("crypto-js/sha256");
 const fs = require('fs');
@@ -26,10 +16,10 @@ if (redisURL.auth) {
   redisClient.auth(redisURL.auth.split(':')[1]);
 }
 
-var mining_ac_nickname = 'HRC7774441';
-var g_pendingTransactions = [];  // array of pending transactions
+var mining_ac_nickname = 'HRC7774441';  // マイニング用の口座のニックネーム
+var g_pendingTransactions = [];  // ペンディング・トランザクションの配列
 
-var jikan = require('./jikan.js');
+var jikan = require('./jikan.js');   // 時刻データのフォーマットツール
 var jikan_dt = new jikan();
 
 
@@ -81,7 +71,7 @@ class Blockchain{
     constructor() {
         this.chain = [this.createGenesisBlock()];
         this.difficulty = 3;    //  set difficulty here
-        this.miningReward = 5;
+        this.miningReward = 1;  //  1 HRD for rewarding of mining
     }
 
     createGenesisBlock() {
@@ -141,14 +131,14 @@ class Blockchain{
     }
 }
 
-function ac_find(nickname) {
+function ac_find(nickname) {    // 口座情報のファイルを元に、口座ニックネームと実際の口座番号を検索する
     return fs.readFileSync( __dirname + '/master/' + nickname + '.hash' , 'utf-8');
 }
 
 let hiroseCoin = new Blockchain();   // start blockchain of hiroseCoin
 
 
-class recTrans {
+class recTrans {      // Redisのキューに溜まった、トランザクションデータを抽出し、キューを空にする
   constructor(chain) {
     this.count = 0;
     this.rectrans = [];
@@ -187,7 +177,7 @@ var timer1, timer2 = null;
 var cnt = 0;
 var s_monitor = 0;
 
-class maintenance {
+class maintenance {       //   本プログラムの一時停止などを行う。
     constructor(){
     }
     watch_mining_s(){
@@ -229,7 +219,7 @@ var mining_main = function(){   // this is callback function for timer.
   rec_msgs = rec_data.checktrans('webtochain');   //  redis から取引ログを抽出して、ペンティングトランザクションに追加
 
   if ( g_pendingTransactions.length > 0 ) {   // ペンディング・トランザクションがあれば、マイニングを行う。
-    g_pendingTransactions.push(new Transaction(jikan_dt.ima_m().substring(0,7), 1, 'HRD', 'MINING', null, ac_find(mining_ac_nickname), null, null));   // マイニング報酬用のトランザクション
+    g_pendingTransactions.push(new Transaction(jikan_dt.ima_m().substring(0,7), 1, 'HRD', 'MINING', null, ac_find(mining_ac_nickname), null, null));   // マイニング報酬用のトランザクション  1 HRD for mining reward
 
     console.log("Start mining with trans! " );
 
@@ -239,7 +229,7 @@ var mining_main = function(){   // this is callback function for timer.
   } else {
 //      cnt += 1;
 //      console.log("No mining " + cnt + " times.");
-    g_pendingTransactions.push(new Transaction(jikan_dt.ima_m().substring(0,7), 1, 'HRD', 'MINING', null, ac_find(mining_ac_nickname), null, null));   // マイニング報酬用のトランザクション
+    g_pendingTransactions.push(new Transaction(jikan_dt.ima_m().substring(0,7), 1, 'HRD', 'MINING', null, ac_find(mining_ac_nickname), null, null));   // マイニング報酬用のトランザクション 1 HRD for mining reward
 
     console.log("Start mining without a tran! " );
 
@@ -252,4 +242,4 @@ var mining_main = function(){   // this is callback function for timer.
   }
 }
 
-timer1 = setInterval(mining_main, 10000);   // timer : call callback every 10 seconds.
+timer1 = setInterval(mining_main, 20000);   // timer : call callback every 20 seconds.
