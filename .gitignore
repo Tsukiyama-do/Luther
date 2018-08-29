@@ -1,0 +1,4 @@
+node_modules/
+db/
+redis-log/dump.rdb
+redis-log/logs

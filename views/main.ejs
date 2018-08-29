@@ -1,0 +1,119 @@
+<html lang="ja">
+ <head>
+   <meta charset="utf-8">
+   <meta name="description" content="月山堂">
+   <meta name="keywords" content="月山堂">
+   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+
+        <title>ガンガン - Tsukiyama-do </title>
+
+
+        	<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css" />
+          <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+          <script src="https://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+          <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+          <script>
+          var url = location.href ;
+          var socket = io.connect(url);
+
+          socket.on('connect', function(){});
+          socket.on('disconnect', function(){
+            socket.open();
+          });
+          socket.on('server_to_client', function(data){
+
+            data.forEach(function(element,index){   //  pick one of array messages from server
+              var myobj = JSON.parse(element);
+              if(myobj.tag == "acclst") {      //  get account list
+                if (index == 0 ) { $("#acclst").html(''); }
+                $("#acclst").append('<option value="' + myobj.rst + '" >' + myobj.rst + '</option>' );
+//                console.log("select data is " + myobj.rst);
+              }
+              if(myobj.tag == "accbalance") {  //  get balance of the account
+                $(".acbalance").html('');
+                $(".acbalance").html('Balance : ' +  myobj.rst + ' ');
+                console.log("balance is " + myobj.rst);
+              }
+              if(myobj.tag == "acclst2") {      //  get account list for transaction form
+                if (index == 0 ) { $("#account_from").html(''); }
+                $("#account_from").append('<option value="' + myobj.rst + '" >' + myobj.rst + '</option>' );
+                if (index == 0 ) { $("#account_to").html(''); }
+                $("#account_to").append('<option value="' + myobj.rst + '" >' + myobj.rst + '</option>' );
+//                console.log("select data is " + myobj.rst);
+              }
+              if(myobj.tag == "tran") {      //  to receive the result and put it to tag.
+                $("#resp2").html('');
+                $("#resp2").html(myobj.rst);
+              }
+
+
+
+           });
+
+          });
+
+
+          </script>
+
+
+          <script src="/assets/aj-lists.js"></script>
+
+
+ </head>
+ <body>
+
+   <div data-role="page" id="page1">
+   	<div data-role="header">
+   		<h1>ガンガン・月山堂</h1>
+   	</div>
+   	<div role="main" class="ui-content">
+      <div id="mini-head">
+        運動しましょう！<br />
+         詳しくは<a href="#page2">ここ</a>を押してください。アクセス履歴 : <%= rec_data.ac_cnter %> 回
+      </div>
+      <div id="mini-pic">
+
+       <p><img src="/assets/img/Azara0.jpeg" style="width:85%" align="center" /></p>
+<!--
+       <p><img src="/assets/img/Tsukiyama-do-logo.png" style="width:100%" align="center" /></p>
+-->
+      </div>
+
+   	</div>
+
+   	<div data-role="footer">
+   		<h4> Tsukiyama-do No Rights Reserved </h4>
+   	</div>
+   </div>
+
+   <div data-role="page" id="page2">
+   	<div data-role="header">
+   		<h1>ガンガン・月山堂 </h1>
+   	</div>
+    <div role="main" class="ui-content">
+      <div id="mini-head2">
+         最初の画面に戻るには<a href="#page1">ここ</a>を押してください。
+      </div>
+   	  <div data-role="content">
+        <a href="" class="ui-btn ui-corner-all" id="btn-about">About</a>
+        <a href="" class="ui-btn ui-corner-all" id="btn-ref">Reference</a>
+        <a href="" class="ui-btn ui-corner-all" id="btn-gangan">Gan-Gan Zudadan</a>
+        <a href="" class="ui-btn ui-corner-all" id="btn-account">Account</a>
+        <a href="" class="ui-btn ui-corner-all" id="btn-transaction">Transaction</a>
+        <a href="" class="ui-btn ui-corner-all" id="btn-history">History</a>
+      </div>
+      <div id="mini-tail">
+      </div>
+      <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+      <script src="https://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+      <script src="/assets/aj-lists.js"></script>
+
+   	</div>
+   	<div data-role="footer">
+      <h4> Tsukiyama-do No Rights Reserved </h4>
+   	</div>
+   </div>
+
+
+ </body>
+</html>
