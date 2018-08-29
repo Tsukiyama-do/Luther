@@ -95,6 +95,14 @@ Updated by Hirose, Yuichi on August 29, 2018
             1. $cd (project directory)
             2. Put Ctl-C to the console of web_s
 
+    2.8 Stop redis
+      1. $cd (project directory)
+      2. $cd redis-log
+      3. $./cli-red.sh
+      4. 127.0.0.1:6379> SHUTDOWN NOSAVE
+      5. not connected> exit
+
+
 3. Architecture
 
     See a powerpoint file in doc directory.
