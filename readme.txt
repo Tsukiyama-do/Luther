@@ -25,6 +25,9 @@ Updated by Hirose, Yuichi on August 29, 2018
 
             Currently tested at 8.0.0 of node.js and 4.0.8 of redis and 2.7.4 of git
 
+            - web
+            Web application needs to be connected to Internet since there are modules of JQuery mobile that accesses to the site of JQuery.
+
   1.2  Download applications and setup files
 
     1.2.1 Download the main applications
