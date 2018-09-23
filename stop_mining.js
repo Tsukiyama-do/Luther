@@ -1,11 +1,5 @@
 
-/*
-var ac = require('./account_list.js');
-var json_msg = ac.search_files(__dirname + '/master', '.hash');
-json_msg.forEach(function(element){
-  console.log(element);
-})
-*/
+
 
 var tran_obj = new Object();
 tran_obj.server = 'mining_s';
