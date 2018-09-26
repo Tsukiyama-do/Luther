@@ -37,11 +37,11 @@ Updated by Hirose, Yuichi on August 29, 2018
         2. $git clone https://github.com/Tsukiyama-do/Luther.git
 
     1.2.2 Setup to run redis
-        1. open the file : goredis.sh
-        2. correct the path of redis-server depending on the environment.
+        1. open the file : (project directory)/redis-log/goredis.sh
+        2. edit the path of redis-server depending on the environment.
         3. save the file.
-        4. open the file : cli-redis.sh
-        5. correct the path of redis-client depending on the environment.
+        4. open the file : (project directory)/redis-log/cli-redis.sh
+        5. edit the path of redis-client depending on the environment.
         6. save the file.
 
     1.2.3 Setup npm
@@ -53,7 +53,7 @@ Updated by Hirose, Yuichi on August 29, 2018
 
     1.2.4 Install packages of Javascript
 
-        1. $ls package.json
+        1. $cat (project diretory)/package.json
         2. $npm install
         3. To confirm that node_modules directory is created.
 
