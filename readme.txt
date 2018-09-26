@@ -34,7 +34,7 @@ Updated by Hirose, Yuichi on August 29, 2018
 
       Using terminal mode, put the following commands:
         1. move to project directory that you want to install to   (ex. ~/github.com/Tsukiyama)
-        2. $git clone
+        2. $git clone https://github.com/Tsukiyama-do/Luther.git
 
     1.2.2 Setup to run redis
         1. open the file : goredis.sh
